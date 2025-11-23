@@ -10,7 +10,7 @@ def charbonnier_loss(y_true: tf.Tensor, y_predicted: tf.Tensor, eps:float=1e-3):
         outliers than L2 and smoother than plain L1.
 
         Formula:
-            L(x) = mean( sqrt( (y_true - y_pred)^2 + eps^2 ) )
+            L(x) = mean( sqrt( (y_true - y_predicted)^2 + eps^2 ) )
 
         Args:
             y_true (tf.Tensor):
