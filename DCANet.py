@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 def noise_estimation_network(input_layer:tf.keras.layers.Layer=tf.keras.layers.Input(shape=(128, 128, 3)),
-                             filters:int = 64, kernel_size:int = 3, out_channels: int = 3):
+                             filters:int = 64, kernel_size:int = 3, out_channels: int = 3) -> tf.keras.layers.Layer:
     """
         Builds a convolutional neural network for estimating image noise.
 
@@ -36,7 +36,7 @@ def noise_estimation_network(input_layer:tf.keras.layers.Layer=tf.keras.layers.I
 
     return outputs
 
-def spatial_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=5):
+def spatial_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=5) -> tf.keras.layers.Layer:
     """
         Spatial Attention Module (SAM)
 
@@ -75,7 +75,7 @@ def spatial_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kern
     sigmoid_1: tf.keras.layers.Layer = tf.keras.layers.Lambda(lambda y: tf.sigmoid(y))(conv2d_1)
     return tf.keras.layers.Multiply()([inputs, sigmoid_1])
 
-def channel_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=1, reduction: int = 8):
+def channel_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=1, reduction: int = 8) -> tf.keras.layers.Layer:
     """
         Channel Attention Module (CAM)
 
@@ -113,7 +113,7 @@ def channel_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kern
     return tf.keras.layers.Multiply()([inputs, sigmoid_1])
 
 
-def spatial_and_channel_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=3):
+def spatial_and_channel_attention_module(inputs: tf.keras.layers.Layer, filters:int=64, kernel_size:int=3) -> tf.keras.layers.Layer:
     """
      Combined Spatial + Channel Attention Module (SCAM)
 
@@ -148,7 +148,7 @@ def spatial_and_channel_attention_module(inputs: tf.keras.layers.Layer, filters:
 
     return tf.keras.layers.Add()([inputs, x])
 
-def upper_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_size: int = 3, out_channels: int = 3):
+def upper_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_size: int = 3, out_channels: int = 3) -> tf.keras.layers.Layer:
     """
        Upper Sub-Network (U-Net–like Encoder–Decoder Module)
 
@@ -250,7 +250,7 @@ def upper_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_s
 
     return x16
 
-def lower_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_size: int = 3, out_channels: int = 3):
+def lower_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_size: int = 3, out_channels: int = 3) -> tf.keras.layers.Layer:
     """
        Lower Sub-Network (Multi-Dilation Residual Pyramid Module)
 
@@ -377,7 +377,7 @@ def lower_sub_network(inputs: tf.keras.layers.Layer, filters: int = 64, kernel_s
 
 
 
-def dca_net(input_shape:tuple=(128, 128, 3), filters: int=64, kernel_size: int=3, out_channels: int=3):
+def dca_net(input_shape:tuple=(128, 128, 3), filters: int=64, kernel_size: int=3, out_channels: int=3) -> tf.keras.Model:
     """
         DCA-Net: Dual Convolutional Neural Network with Attention for Image Blind Denoising
 

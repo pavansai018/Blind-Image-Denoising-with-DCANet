@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-def charbonnier_loss(y_true: tf.Tensor, y_predicted: tf.Tensor, eps:float=1e-3):
+def charbonnier_loss(y_true: tf.Tensor, y_predicted: tf.Tensor, eps:float=1e-3) -> tf.Tensor:
     """
         Charbonnier Loss (Smooth L1-like robust loss)
 
@@ -29,7 +29,7 @@ def charbonnier_loss(y_true: tf.Tensor, y_predicted: tf.Tensor, eps:float=1e-3):
     loss: tf.Tensor = tf.reduce_mean(tf.sqrt(tf.square(diff) + (eps * eps)))
     return loss
 
-def edge_loss(y_true: tf.Tensor, y_predicted:tf.Tensor):
+def edge_loss(y_true: tf.Tensor, y_predicted:tf.Tensor) -> tf.Tensor:
     """
        Edge-Aware Loss using Laplacian Pyramid Approximation
 
