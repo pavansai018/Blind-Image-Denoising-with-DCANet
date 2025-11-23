@@ -126,6 +126,11 @@ Noise can be:
 - pre-generated (offline), OR  
 - applied inside the TensorFlow data pipeline (recommended)
 
+
+<img width="832" height="414" alt="image" src="https://github.com/user-attachments/assets/7c062f24-787b-4d66-95c1-49363e47e749" />
+<img width="855" height="414" alt="image" src="https://github.com/user-attachments/assets/079f1ba4-d749-4bb7-af7b-c942ae0faa75" />
+<img width="849" height="424" alt="image" src="https://github.com/user-attachments/assets/8f44fe1a-b65e-44b7-971c-b0d0f16c4aef" />
+
 ---
 
 
