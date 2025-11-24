@@ -79,6 +79,8 @@ def edge_loss(y_true: tf.Tensor, y_predicted:tf.Tensor) -> tf.Tensor:
                     tf.Tensor:
                         Gaussian-blurred image of shape (B, H, W, C).
         """
+        if len(img.shape) == 3:
+            img = tf.expand_dims(img, axis=0)
         img = tf.pad(img, [[0,0], [2,2], [2,2], [0,0]], mode='SYMMETRIC')
         return tf.nn.depthwise_conv2d(img, kernel, strides=[1,1,1,1], padding='VALID')
 
@@ -122,3 +124,9 @@ def edge_loss(y_true: tf.Tensor, y_predicted:tf.Tensor) -> tf.Tensor:
         return diff
     loss: tf.Tensor = charbonnier_loss(laplacian_kernel(y_true), laplacian_kernel(y_predicted))
     return loss
+
+
+def dummy_loss(y_true, y_predicted):
+    """Dummy loss that returns 0 for unused outputs"""
+    y_predicted = y_predicted[1]
+    return 0.0 * tf.reduce_mean(y_predicted)
