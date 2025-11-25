@@ -333,6 +333,7 @@ class DCTrainer:
 
 # Usage example
 if __name__ == "__main__":
+    weights_path = r'/home/pavan/Downloads/SUTD/Project/DCANet/scripts/training_checkpoints/dcanet_epoch_012.h5'
     # Initialize trainer
     trainer = DCTrainer(
         input_shape=(128, 128, 3),
@@ -348,5 +349,5 @@ if __name__ == "__main__":
         train_dataset=dataset_generation.get_train_dataset(),
         val_dataset=dataset_generation.get_val_dataset(),
         epochs=100,
-        resume_from_checkpoint=None  # Set to path if resuming
+        resume_from_checkpoint=None#weights_path  # Set to path if resuming
     )

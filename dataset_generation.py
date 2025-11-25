@@ -11,7 +11,7 @@ def prepare_dataset_for_multi_output(dataset):
     """Convert dataset to provide 3 outputs matching the model"""
     def map_fn(noisy, clean):
         # For 3-output model: return (input, [target, target, target])
-        return noisy, (clean, clean, clean)
+        return noisy/255., (clean/255., clean/255., clean/255.)
     return dataset.map(map_fn)
 
 def get_train_dataset() -> tf.data.Dataset:
