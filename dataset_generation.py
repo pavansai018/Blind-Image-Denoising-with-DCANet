@@ -19,7 +19,8 @@ def get_train_dataset() -> tf.data.Dataset:
         directory=train_clean,
         labels=None,
         shuffle=False,
-        batch_size=32,
+        image_size=(128, 128),
+        batch_size=16,
 
     )
 
@@ -27,7 +28,8 @@ def get_train_dataset() -> tf.data.Dataset:
         directory=train_noisy,
         labels=None,
         shuffle=False,
-        batch_size=32
+        image_size=(128, 128),
+        batch_size=16
     )
 
     train_dataset = tf.data.Dataset.zip((train_noisy_generator, train_clean_generator))
@@ -41,7 +43,8 @@ def get_val_dataset() -> tf.data.Dataset:
         directory=val_clean,
         labels=None,
         shuffle=False,
-        batch_size=32,
+        image_size=(128, 128),
+        batch_size=16,
 
     )
 
@@ -49,7 +52,8 @@ def get_val_dataset() -> tf.data.Dataset:
         directory=val_noisy,
         labels=None,
         shuffle=False,
-        batch_size=32
+        image_size=(128, 128),
+        batch_size=16
     )
 
     val_dataset = tf.data.Dataset.zip((val_noisy_generator, val_clean_generator))

@@ -1,8 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scheduler import WarmupThenCosine
+import tensorflow as tf
 
-steps_per_epoch = 625
+from dataset_generation import get_train_dataset, get_val_dataset
+devices = tf.config.list_physical_devices('GPU')
+for device in devices:
+    tf.config.experimental.set_memory_growth(device=device, enable=True)
+
+
+steps_per_epoch = get_train_dataset().cardinality().numpy()
 print(steps_per_epoch)
 # Create the scheduler with your actual parameters
 lr_schedule = WarmupThenCosine(

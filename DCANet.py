@@ -443,7 +443,7 @@ def dca_net(input_shape:tuple=(128, 128, 3), filters: int=64, kernel_size: int=3
     output: tf.keras.layers.Layer = tf.keras.layers.Add()([conv_tail, inputs])
     model = tf.keras.Model(inputs=inputs, outputs=[output, conv_tail, noise_estimation_output])
 
-    # print(model.summary())
+    print(model.summary())
     return model
 
 if __name__ == '__main__':

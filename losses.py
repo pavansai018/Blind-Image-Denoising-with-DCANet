@@ -128,5 +128,5 @@ def edge_loss(y_true: tf.Tensor, y_predicted:tf.Tensor) -> tf.Tensor:
 
 def dummy_loss(y_true, y_predicted):
     """Dummy loss that returns 0 for unused outputs"""
-    y_predicted = y_predicted[1]
+    # y_predicted = y_predicted[1]
     return 0.0 * tf.reduce_mean(y_predicted)

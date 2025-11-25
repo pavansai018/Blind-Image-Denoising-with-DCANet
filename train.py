@@ -10,10 +10,10 @@ from scheduler import WarmupThenCosine
 import dataset_generation
 from model_saving_callback import EpochModelCheckpoint
 
-
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     for gpu in gpus:
+        print(gpu)
         tf.config.experimental.set_memory_growth(gpu, True)
 
 
@@ -80,20 +80,20 @@ class DCTrainer:
         y_true is the ground truth clean image
         """
         # Unpack outputs - we only use final_output and noise_estimation
-        final_output = y_pred[0]  # Final denoised image (equivalent to 'restored' in PyTorch)
-        noise_est = y_pred[2]  # noise estimation (equivalent to 'noise_level' in PyTorch)
+        # final_output = y_pred[0]  # Final denoised image (equivalent to 'restored' in PyTorch)
+        # noise_est = y_pred[2]  # noise estimation (equivalent to 'noise_level' in PyTorch)
 
         # Charbonnier loss for the final output
-        charbonnier_loss_val = charbonnier_loss(y_true, final_output)
+        charbonnier_loss_val = charbonnier_loss(y_true, y_pred)
 
         # Edge loss for the final output
-        edge_loss_val = edge_loss(y_true, final_output)
+        edge_loss_val = edge_loss(y_true, y_pred)
 
         # TV regularization for noise estimation (matches PyTorch calculation)
-        tv_loss = self.tv_regularization(noise_est)
+        # tv_loss = self.tv_regularization(noise_est)
 
         # Combine losses with same weights as PyTorch
-        total_loss = charbonnier_loss_val + 0.1 * edge_loss_val + 0.05 * tv_loss
+        total_loss = charbonnier_loss_val + 0.1 * edge_loss_val #+ 0.05 * tv_loss
 
         return total_loss
 
@@ -226,7 +226,7 @@ class DCTrainer:
             checkpoint_callback,
             best_model_callback,
             early_stopping,
-            tensorboard_callback,
+            # tensorboard_callback,
             lr_scheduler,
             history_saver
         ]
@@ -303,7 +303,7 @@ class DCTrainer:
         print(f"Validation steps: {validation_steps}")
 
         # Create callbacks
-        # callbacks = self.create_callbacks(steps_per_epoch)
+        callbacks = self.create_callbacks(steps_per_epoch)
 
         # Custom training loop to handle history tracking
         class CustomTrainingCallback(tf.keras.callbacks.Callback):
@@ -313,7 +313,7 @@ class DCTrainer:
             def on_epoch_end(self, epoch, logs=None):
                 self.trainer.update_history(logs)
 
-        # callbacks.append(CustomTrainingCallback(self))
+        callbacks.append(CustomTrainingCallback(self))
 
         # Start training
         history = self.model.fit(
@@ -324,7 +324,7 @@ class DCTrainer:
             validation_data=val_dataset,
 
             # validation_steps=validation_steps,
-            # callbacks=callbacks,
+            callbacks=callbacks,
             verbose=1
         )
 
@@ -335,9 +335,9 @@ class DCTrainer:
 if __name__ == "__main__":
     # Initialize trainer
     trainer = DCTrainer(
-        input_shape=(256, 256, 3),
-        base_lr=1e-4,
-        lr_min=1e-6,
+        input_shape=(128, 128, 3),
+        base_lr=1e-3,
+        lr_min=1e-4,
         warmup_epochs=3,
         checkpoint_dir="training_checkpoints",
         logs_dir="training_logs"
